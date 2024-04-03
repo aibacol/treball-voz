@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espectrograma</title>
+</head>
+<body>
+    <h1>Espectrograma</h1>
+    <button onclick="verEspectrograma()">Ver Espectrograma</button>
+    <button onclick="verEspectrogramaLog()">Ver Espectrograma Log</button>
+    <button onclick="verEspectrogramaMel()">Ver Espectrograma Mel</button>
+    <div id="espectrograma"></div>
+
+    <script>
+        function verEspectrograma() {
+            fetch('/espectrograma')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('espectrograma').innerText = JSON.stringify(data);
+                });
+        }
+
+        function verEspectrogramaLog() {
+            fetch('/espectrograma_log')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('espectrograma').innerText = data;
+                });
+        }
+
+        function verEspectrogramaMel() {
+            fetch('/espectrograma_mel')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('espectrograma').innerText = data;
+                });
+        }
+    </script>
+</body>
+</html>
