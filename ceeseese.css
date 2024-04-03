@@ -1,0 +1,33 @@
+body{
+    padding: 1%;
+    padding-top: 0%;
+    background: rgb(132,131,142);
+    background: linear-gradient(311deg, rgba(132,131,142,1) 0%, rgba(237,239,239,1) 100%);
+}
+
+.maestro{
+    display: flex;
+    flex-direction: row;
+    height: 750px;
+    width: 40%;
+}
+
+.botones{
+    margin-top: 20px;
+}
+
+.botones button{
+    margin-top: 7px;
+    margin-right: 3px;
+    box-shadow: 1px 3px 2px black;
+}
+
+#genera{
+    width: 379px;
+    margin-top: 15px;
+    box-shadow: 1px 3px 2px black;
+}
+
+#espectrograma{
+    margin: 6px;
+}

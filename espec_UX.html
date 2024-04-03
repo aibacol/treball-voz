@@ -4,38 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Espectrograma</title>
+    <script src="losjavas.js"></script>
+    <link rel="stylesheet" href="ceeseese.css">
 </head>
 <body>
     <h1>Espectrograma</h1>
-    <button onclick="verEspectrograma()">Ver Espectrograma</button>
-    <button onclick="verEspectrogramaLog()">Ver Espectrograma Log</button>
-    <button onclick="verEspectrogramaMel()">Ver Espectrograma Mel</button>
-    <div id="espectrograma"></div>
+    <div class="maestro">
+        <div class="izq">
+            <!--Selector de tipo-->
+            <input type="radio" id="espectrograma" name="grafica" value="1">
+            <label for="espectrograma1">Ver Espectrograma</label><br>
+            <input type="radio" id="espectrograma" name="grafica" value="2">
+            <label for="espectrograma2">Ver Espectrograma Log</label><br>
+            <input type="radio" id="espectrograma" name="grafica" value="3">
+            <label for="espectrograma3">Ver Espectrograma Mel</label><br>
 
-    <script>
-        function verEspectrograma() {
-            fetch('/espectrograma')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('espectrograma').innerText = JSON.stringify(data);
-                });
-        }
+            <div class="botones">
+                <button onclick="iniciarGrabacion()">Iniciar Grabación</button>
+                <button onclick="detenerGrabacion()">Detener Grabación</button>
+                <button onclick="descargarGrabacion()">Descargar Grabación</button>
+                <input type="file" id="seleccionarArchivoInput" accept="audio/*" style="display: none;">
+            </div>
 
-        function verEspectrogramaLog() {
-            fetch('/espectrograma_log')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('espectrograma').innerText = data;
-                });
-        }
+            <button id="genera" onclick="">Generate</button>
+        </div>
 
-        function verEspectrogramaMel() {
-            fetch('/espectrograma_mel')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('espectrograma').innerText = data;
-                });
-        }
-    </script>
+        <div id="espectrograma">
+            
+        </div>
+    </div>
+
+    
 </body>
 </html>
