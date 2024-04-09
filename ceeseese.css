@@ -5,6 +5,14 @@ body{
     background: linear-gradient(311deg, rgba(132,131,142,1) 0%, rgba(237,239,239,1) 100%);
 }
 
+button{
+    border-radius: 10px;
+}
+
+.rradio{
+    margin: 6px;
+}
+
 .maestro{
     display: flex;
     flex-direction: row;
@@ -26,8 +34,4 @@ body{
     width: 379px;
     margin-top: 15px;
     box-shadow: 1px 3px 2px black;
-}
-
-#espectrograma{
-    margin: 6px;
 }
