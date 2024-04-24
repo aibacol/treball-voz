@@ -78,3 +78,88 @@ var mediaRecorder; // Variable global para almacenar el objeto MediaRecorder
             // Limpiar el array de fragmentos de audio
             audioChunks = [];
         }
+
+// Create a new audio context
+const audioCtx = new AudioContext();
+
+// Load the audio file
+fetch('trompeta.wav')
+  .then(response => response.arrayBuffer())
+  .then(arrayBuffer => audioCtx.decodeAudioData(arrayBuffer))
+  .then(audioBuffer => {
+    // Store the audio buffer
+    const x = audioBuffer;
+
+    // Create an analyser node
+    const analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 2048;
+    analyser.smoothingTimeConstant = 0.3;
+
+    // Connect the audio buffer source node to the analyser node
+    const source = audioCtx.createBufferSource();
+    source.buffer = x;
+    source.connect(analyser);
+
+    // Start the audio
+    source.start(0);
+
+    // Update the spectrogram data in the requestAnimationFrame loop
+    function updateSpectrogram() {
+      // Get the time domain data
+      analyser.getByteTimeDomainData(timeByteData);
+
+      // Get the frequency domain data
+      analyser.getByteFrequencyData(freqByteData);
+
+      // Create the canvas and context
+      const canvas = document.getElementById('espectrograma');
+      const ctx = canvas.getContext('2d');
+
+      // Clear the canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw the time domain data
+      ctx.fillStyle = 'rgb(0, 0, 0)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'rgb(255, 255, 255)';
+      ctx.beginPath();
+      let x = 0;
+      for (let i = 0; i < timeByteData.length; i++) {
+        const v = timeByteData[i] / 128.0;
+        const y = (1 - v) * canvas.height;
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+        x++;
+      }
+      ctx.stroke();
+
+      // Draw the frequency domain data
+      ctx.fillStyle = 'rgb(0, 0, 0)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'rgb(255, 255, 255)';
+      ctx.beginPath();
+      x = 0;
+      for (let i = 0; i < freqByteData.length; i++) {
+        const v = freqByteData[i] / 128.0;
+        const y = (1 - v) * canvas.height;
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+        x += canvas.width / freqByteData.length;
+      }
+      ctx.stroke();
+
+      // Request the next frame
+      requestAnimationFrame(updateSpectrogram);
+    }
+
+    // Start the update loop
+    updateSpectrogram();
+  });
