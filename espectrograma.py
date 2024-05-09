@@ -32,4 +32,4 @@ img = librosa.display.specshow(S_db, sr=fs, hop_length=int(hop),x_axis='time', y
 ax.set(title='Espectrograma en escala MEL')
 fig.colorbar(img, ax=ax, format="%+2.f dB");
 
-plt.show()
+plt.savefig('wachi.png')
