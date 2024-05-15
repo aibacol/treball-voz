@@ -1,0 +1,48 @@
+/*
+*{
+    text-align: center;
+
+}
+*/
+body{
+    padding: 1%;
+    padding-top: 0%;
+    background: rgb(132,131,142);
+    background: linear-gradient(311deg, rgba(132,131,142,1) 0%, rgba(237,239,239,1) 100%);
+    display: flex;
+     
+}
+
+/*Botones*/
+button{
+    border-radius: 5px;
+}
+button:hover{
+    cursor: pointer;
+}
+#convertir-a-voz, #idioma{
+    margin-top: 12px;
+}
+#convertir-a-voz, #h-efectoss{
+    margin-bottom: 22px;
+}
+
+/*Texto disclamer*/
+#disclamer{
+    color: rgba(22, 22, 22, 0.633);
+    font-size: 13px;
+    text-align: center;
+    margin-top: 70px;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    text-align: center; 
+}
+#disclaimer img {
+    padding-right: 15px;
+}
+
+#fotos{
+    margin-top: 100px;
+    margin-left: 25%;
+}
