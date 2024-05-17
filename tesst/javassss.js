@@ -2,41 +2,19 @@ let mediaRecorder;
 let recordedChunks = [];
 let audioStream;
 
-navigator.mediaDevices.getUserMedia({ audio: true })
-  .then(stream => {
-    // Guarda el stream de audio para usarlo más tarde
-    audioStream = stream;
-  })
-  .catch(error => {
-    console.error('Error al acceder al micrófono:', error);
-  });
+document.addEventListener("DOMContentLoaded", function() {
+    // Obtener acceso al micrófono
+    navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+            // Guardar el stream de audio para usarlo más tarde
+            audioStream = stream;
+        })
+        .catch(error => {
+            console.error('Error al acceder al micrófono:', error);
+        });
+});
 
-function convertirTextoAVoz() {
-    // Obtener el texto del textarea
-    var texto = document.getElementById("texto").value;
-
-    // Obtener el idioma seleccionado
-    var idioma = document.getElementById("idioma").value;
-
-    // Verificar si el navegador soporta la API SpeechSynthesis
-    if ('speechSynthesis' in window) {
-        // Crear un nuevo objeto SpeechSynthesisUtterance
-        var mensaje = new SpeechSynthesisUtterance();
-
-        // Establecer el texto que se va a convertir a voz
-        mensaje.text = texto;
-
-        // Establecer el idioma de la voz
-        mensaje.lang = idioma;
-
-        // Hablar el texto
-        window.speechSynthesis.speak(mensaje);
-
-    } else {
-        alert("Tu navegador no soporta la API SpeechSynthesis.");
-    }
-}
-
+// Iniciar la grabación
 function iniciarGrabacion() {
     // Detener grabación si ya está en curso
     if (mediaRecorder && mediaRecorder.state !== 'inactive') {
@@ -72,12 +50,40 @@ function iniciarGrabacion() {
     mediaRecorder.start();
 }
 
+// Detener la grabación
 function detenerGrabacion() {
     if (mediaRecorder && mediaRecorder.state !== 'inactive') {
         mediaRecorder.stop();
     }
 }
 
+// Convertir texto a voz
+function convertirTextoAVoz() {
+    // Obtener el texto del textarea
+    var texto = document.getElementById("texto").value;
+
+    // Obtener el idioma seleccionado
+    var idioma = document.getElementById("idioma").value;
+
+    // Verificar si el navegador soporta la API SpeechSynthesis
+    if ('speechSynthesis' in window) {
+        // Crear un nuevo objeto SpeechSynthesisUtterance
+        var mensaje = new SpeechSynthesisUtterance();
+
+        // Establecer el texto que se va a convertir a voz
+        mensaje.text = texto;
+
+        // Establecer el idioma de la voz
+        mensaje.lang = idioma;
+
+        // Hablar el texto
+        window.speechSynthesis.speak(mensaje);
+    } else {
+        alert("Tu navegador no soporta la API SpeechSynthesis.");
+    }
+}
+
+// Aplicar efecto de sonido
 function aplicarEfecto(efecto) {
     // Obtener el archivo de audio
     var archivoAudio = document.getElementById("archivoAudio").files[0];
