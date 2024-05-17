@@ -13,6 +13,8 @@ En ambas terminales debera ir hasta el directorio donde esta contenido tanto el 
 
 ```
 python aplicar-funcion.py 
+```
+```
 python -m http.server
 ```
 
