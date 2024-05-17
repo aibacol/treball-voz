@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texto a Voz con Efectos</title>
+<!--<link rel="stylesheet" href="ceeseese.css"> -->
+<!--  -->
+</head>
+<body>
+    <h1 style="display: flex;justify-content: center;margin-bottom: 50px;">Modificador de audio</h1>
+    <div style="display:flex; flex-direction: row;">
+       
+        <div style="margin-left: 3%;box-shadow: 5px 5px 3px lightslategray; background-color: antiquewhite;padding: 3%; border-style: solid;border-radius:9px;;">
+            <h2 >Conversor de texto a voz:</h2>
+            <textarea id="texto" rows="4" cols="50">Introduce el texto que quieres convertir a voz...</textarea><br>
+            <label for="idioma" id="label">Selecciona el idioma:</label>
+            <select id="idioma">
+                <option value="es-ES" selected>Español</option>
+                <option value="fr-FR">Francés</option>
+                <option value="en-US">Inglés</option>
+                <option value="pt-PT">Portugués (Portugal)</option>
+                <option value="pt-BR">Portugués (Brasil)</option>
+                <option value="zh-CN">Chino (Mandarín simplificado)</option>
+                <option value="zh-TW">Chino (Mandarín tradicional)</option>
+            </select><br>
+            <button onclick="convertirTextoAVoz()" id="convertir-a-voz">Convertir a Voz</button><br><br>
+            <button onclick="iniciarGrabacion()" class="grabar">Iniciar Grabación</button>
+            <button onclick="detenerGrabacion()" class="grabar">Detener Grabación</button><br><br><hr>
+
+            <h2>Selector de efectos:</h2>
+            <input type="file" id="archivoAudio" accept="audio/*"><br>
+            <h4 id="h-efectoss">Tres efectos de sonido a elegir:</h4>
+            <button onclick="aplicarEfecto('tremolo')" class="efectos">Efecto tremolo</button>
+            <button onclick="aplicarEfecto('vibrato')" class="efectos">Efecto vibratto</button>
+            <button onclick="aplicarEfecto('cambio-pitch')" class="efectos">Cambio de Pitch</button>
+        </div>
+        <div style="margin-left: 25%;margin-right: 3%; box-shadow: 5px 5px 3px lightslategray; background-color: antiquewhite;padding: 3%; border-style: solid;border-radius:9px;;">
+            <p id="disclamer">
+                <img src="https://www.svgrepo.com/show/479271/exclamation-mark.svg" height="15px"> Para el uso de esta página web es necesario tener Python instalado.
+                <p> Debe tener instaladas las siguientes librerias.</p>
+            </p>
+            <ul>
+                <li>flask</li>
+                <li>flask_cors</li>
+                <li>numpy</li>
+                <li>scipy.io.wavfile</li>
+                <li>scipy</li>
+                <li>os</li>
+            </ul>
+            <p>Para que funcione tienes que activar el servidor flask. Para ello es necesario que abras 2 terminales.<br> En ambas terminales debera ir hasta el directorio donde esta contenido tanto el .py como .html.</p>
+            <code>python aplicar-funcion.py <br>python -m http.server
+            </code>
+            <p>Una vez este en el directorio ejecute los codigos de arriba en el orden indicao. Una vez realizado esto podra ejecutar de nuevo el html y podra usar los filtros.</p>
+        </div>
+    </div>
+ 
+    
+    <script>
+
+      let mediaRecorder;
+      let recordedChunks = [];
+      let audioStream;
+
+      function convertirTextoAVoz() {
+          // Obtener el texto del textarea
+          const texto = document.getElementById("texto").value;
+
+          // Obtener el idioma seleccionado
+          const idioma = document.getElementById("idioma").value;
+
+          // Crear un objeto SpeechSynthesisUtterance
+          const mensaje = new SpeechSynthesisUtterance();
+
+          // Establecer el texto que se va a convertir a voz
+          mensaje.text = texto;
+
+          // Establecer el idioma de la voz
+          mensaje.lang = idioma;
+
+          // Hablar el texto
+          window.speechSynthesis.speak(mensaje);
+      }
+
+
+ 
+function iniciarGrabacion() {
+    // Obtener el flujo de audio del micrófono
+    navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(function(stream) {
+            // Inicializar MediaRecorder con el flujo de audio
+            mediaRecorder = new MediaRecorder(stream);
+
+            // Escuchar el evento de datos disponibles
+            mediaRecorder.ondataavailable = function(event) {
+                recordedChunks.push(event.data);
+            };
+
+            // Comenzar la grabación
+            mediaRecorder.start();
+        })
+        .catch(function(err) {
+            console.error('Error al acceder al micrófono:', err);
+        });
+}
+
+function detenerGrabacion() {
+    if (mediaRecorder) {
+        mediaRecorder.stop();
+        mediaRecorder.onstop = function() {
+            var audioBlob = new Blob(recordedChunks, { type: 'audio/wav' });
+            recordedChunks = [];
+
+            // Crear una URL para el Blob y generar un enlace de descarga
+            var url = URL.createObjectURL(audioBlob);
+            var a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'grabacion_voz.wav';
+            document.body.appendChild(a);
+            a.click();
+
+            // Limpiar después de la descarga
+            URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        };
+
+        mediaRecorder.onerror = function(err) {
+            console.error('Error en la grabación:', err);
+        };
+    } else {
+        console.warn('No hay grabación en curso.');
+    }
+}
+
+      async function aplicarEfecto(efecto) {
+          const archivoAudio = document.getElementById("archivoAudio").files[0];
+          if (!archivoAudio) {
+              console.error('No se ha seleccionado ningún archivo de audio.');
+              return;
+          }
+
+          const formData = new FormData();
+          formData.append("audio", archivoAudio);
+
+          try {
+              const response = await fetch(`http://localhost:5000/aplicar-efecto/${efecto}`, {
+                  method: 'POST',
+                  body: formData
+              });
+
+              if (!response.ok) throw new Error('Error en la respuesta del servidor');
+
+              const blob = await response.blob();
+              const audio = new Audio(URL.createObjectURL(blob));
+              audio.play();
+          } catch (error) {
+              console.error('Error al aplicar el efecto:', error);
+          }
+      }
+    </script>
+</body>
+</html>
