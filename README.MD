@@ -11,12 +11,8 @@ Debe tener instaladas las siguientes librerias:
 Para que funcione tienes que activar el servidor flask. Para ello es necesario que abras 2 terminales.
 En ambas terminales debera ir hasta el directorio donde esta contenido tanto el py como html.
 
-```
-python aplicar-funcion.py 
-```
-```
-python -m http.server
-```
+`python aplicar-funcion.py`
+`python -m http.server`
 
-Una vez este en el directorio ejecute los codigos de arriba en el orden indicado. 
+Una vez esté en el directorio ejecute los codigos de arriba en el orden indicado. 
 Una vez realizado esto podra ejecutar de nuevo el html y poder usar los filtros.
