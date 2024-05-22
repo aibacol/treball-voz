@@ -7,8 +7,8 @@
 <!--<link rel="stylesheet" href="ceeseese.css"> -->
 <!--  -->
 </head>
-<body>
-    <h1 style="display: flex;justify-content: center;margin-bottom: 50px;">Modificador de audio</h1>
+<body style="font-family: Arial, Helvetica, sans-serif;">
+    <h1 style="display: flex;justify-content: center;margin-bottom: 50px;">- Modificador de audio -</h1>
     <div style="display:flex; flex-direction: row;">
        
         <div style="margin-left: 3%;box-shadow: 5px 5px 3px lightslategray; background-color: antiquewhite;padding: 3%; border-style: solid;border-radius:9px;;">
@@ -37,7 +37,7 @@
         </div>
         <div style="margin-left: 25%;margin-right: 3%; box-shadow: 5px 5px 3px lightslategray; background-color: antiquewhite;padding: 3%; border-style: solid;border-radius:9px;;">
             <p id="disclamer">
-                <img src="https://www.svgrepo.com/show/479271/exclamation-mark.svg" height="15px"> Para el uso de esta página web es necesario tener Python instalado.
+                <img src="https://www.svgrepo.com/show/479271/exclamation-mark.svg" height="15px"> Para el uso de esta página web es necesario tener Python instalado. Preferiblemente usar Chrome ¬¬
                 <p> Debe tener instaladas las siguientes librerias.</p>
             </p>
             <ul>
@@ -49,9 +49,19 @@
                 <li>os</li>
             </ul>
             <p>Para que funcione tienes que activar el servidor flask. Para ello es necesario que abras 2 terminales.<br> En ambas terminales debera ir hasta el directorio donde esta contenido tanto el .py como .html.</p>
-            <code>python aplicar-funcion.py <br>python -m http.server
-            </code>
+            <code>python aplicar-funcion.py <br>python -m http.server</code>
             <p>Una vez este en el directorio ejecute los codigos de arriba en el orden indicao. Una vez realizado esto podra ejecutar de nuevo el html y podra usar los filtros.</p>
+            <details>
+                <summary>Creación:</summary>
+                    <br>Para el texto a voz, hemos creado una función que hace un llamamiento a la API "SpeechSynthesisUtterance", que nos devuelve por los altavoces el texto convertido a voz.
+                    <br>La función de inicio y detención de la grabación hace uso de datos del sistema con el input del micrófono propio del dispositivo, sin necesidad de APIs.
+                    <br>En el archivo Python tenemos los efectos Tremolo, Vibratto y cambio de pitch:
+                    <ul>
+                        <li>El efecto trémolo hace que el volumen fluctúe a una frecuencia determinada. Usa una frecuencia de trémolo de 20, oscilando el volumen del audio 20 veces por segundo. Modulamos de amplitud varia entre 0 y 1. Lo normalizamos y lo convertimos a 16 bits</li>
+                        <li>El vibratto hace lo mismo pero trabaja sobre el tono, no sobre el volumen. En este caso, fijamos la frecuencia a 3 Hz, fluctuando el tono 3 veces por segundo. Empleamos un parámetro que representa la cantidad máxima de desviación que se aplica a la señal original</li>
+                    </ul>
+                </details><br>
+            <a href="https://github.com/aibacol/treball-voz/tree/main" target="_blank" style="color: blue; text-decoration: none;">GitHub</a>
         </div>
     </div>
  
@@ -159,5 +169,6 @@ function detenerGrabacion() {
           }
       }
     </script>
+    
 </body>
 </html>
