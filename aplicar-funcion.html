@@ -8,8 +8,8 @@
 <!--  -->
 </head>
 <body style="font-family: Arial, Helvetica, sans-serif;">
-    <h1 style="display: flex;justify-content: center;margin-bottom: 50px;">- Modificador de audio -</h1>
-    <div style="display:flex; flex-direction: row;">
+    <h1 style="display: flex;justify-content: center; box-shadow: 5px 5px 3px lightslategray; background-color: antiquewhite;padding: 3%; border-style: solid;border-radius:9px; margin-left: 25%; margin-right: 25%;">- Modificador de audio -</h1>
+    <div style="display:flex; flex-direction: row; margin-bottom: 40px;">
        
         <div style="margin-left: 3%;box-shadow: 5px 5px 3px lightslategray; background-color: antiquewhite;padding: 3%; border-style: solid;border-radius:9px;;">
             <h2 >Conversor de texto a voz:</h2>
@@ -65,11 +65,15 @@
                         <li>El cambio de pitch es un cambio de tono de todo el audio. Primero realizamos una transformada de Fourier de 4º tiempo STFT para obtener el espectro de frecuencias para identificar los picos de frecuencia que corresponden al pitch. De esos picos de frdecuencia seleccionamos el pitch más bajo en cada bloque de tiempo, ajustamos las frecuencias al tono de la nota más cercana y normalizamos.</li>
                     </ul>
             </details><br>
-            <a href="https://github.com/aibacol/treball-voz/tree/main" target="_blank" style="color: blue; text-decoration: none;">GitHub</a>
+            <a href="https://github.com/aibacol/treball-voz/tree/main" target="_blank" style="color: rgb(89, 89, 237); text-decoration: none;">GitHub</a>
         </div>
     </div>
- 
-    
+    <style>
+        body{
+            background: rgb(116,107,212);
+            background: linear-gradient(28deg, rgba(116,107,212,1) 0%, rgba(210,197,178,1) 100%);
+        }
+    </style>
     <script>
 
       let mediaRecorder;

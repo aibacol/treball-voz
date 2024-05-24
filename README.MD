@@ -16,7 +16,7 @@ En ambas terminales debera ir hasta el directorio donde esta contenido tanto el 
 
 Una vez esté en el directorio ejecute los codigos de arriba en el orden indicado. 
 Una vez realizado esto podra ejecutar de nuevo el html y poder usar los filtros.
-
+---
 ## Explicación de las funciones python empleadas:
 - El efecto trémolo hace que el volumen fluctúe a una frecuencia determinada. Usa una frecuencia de trémolo de 20, oscilando el volumen del audio 20 veces por segundo. Modulamos de amplitud varia entre 0 y 1. Lo normalizamos y lo convertimos a 16 bits.
 - El vibratto hace lo mismo pero trabaja sobre el tono, no sobre el volumen. En este caso, fijamos la frecuencia a 3 Hz, fluctuando el tono 3 veces por segundo. Empleamos un parámetro que representa la cantidad máxima de desviación que se aplica a la señal original. Para acabar, normalizamos 
